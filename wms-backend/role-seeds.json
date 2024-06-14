@@ -1,0 +1,11 @@
+[
+    {
+        "id": 1,
+        "nama_role": "ADMIN"
+    },
+    {
+        "id": 2,
+        "nama_role": "PEMILIK"
+    }
+]
+

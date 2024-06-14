@@ -1,0 +1,19 @@
+[
+    {
+        "role_id": 1,
+        "nama": "ali",
+        "no_hp": "081234567890",
+        "username": "ali1",
+        "password": "ali1",
+        "alamat":"jalan musi"
+    },
+    {
+        "role_id": 2,
+        "nama": "bagas",
+        "no_hp": "089876543210",
+        "username": "bagas1",
+        "password": "bagas1",
+        "alamat":"jalan mahakam"
+    }
+]
+
