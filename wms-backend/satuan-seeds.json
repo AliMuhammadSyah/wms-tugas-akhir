@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "nama_satuan": "m"
+    },
+    {
+        "id": 2,
+        "nama_satuan": "pcs"
+    },
+    {
+        "id": 3,
+        "nama_satuan": "kg"
+    },
+    {
+        "id": 4,
+        "nama_satuan": "cm"
+    },
+    {
+        "id": 5,
+        "nama_satuan": "box"
+    }
+]
+
