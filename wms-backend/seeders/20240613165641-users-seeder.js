@@ -1,22 +1,35 @@
+"use strict";
+
 const fs = require("fs");
-'use strict';
+const { encryptPassword } = require("../helpers/bcrypt");
+require("dotenv").config();
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    const payloads = [];
-    const data = JSON.parse(fs.readFileSync("./role-seeds.json"));
+  async up(queryInterface, Sequelize) {
+    const parseData = JSON.parse(fs.readFileSync("./user-seeds.json"));
 
-    data.map((values) => {
-      const { nama_role } = values;
+    const payloads = [];
+
+    parseData.map((values) => {
+      const { role_id, nama, no_hp, username, password, alamat } = values;
+
+      const hashPassword = encryptPassword(password);
 
       payloads.push({
-        nama_role: nama_role,
+        role_id: role_id,
+        nama: nama,
+        no_hp: no_hp,
+        username: username,
+        password: hashPassword,
+        alamat: alamat,
       });
     });
 
-    await queryInterface.bulkInsert("roles", payloads, {});
+    await queryInterface.bulkInsert("Users", payloads, {});
   },
 
-  async down(queryInterface, Sequelize) {},
+  async down(queryInterface, Sequelize) {
+    await queryInterface.bulkDelete("Users", null, {});
+  },
 };

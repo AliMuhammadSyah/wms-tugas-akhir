@@ -1,27 +1,26 @@
+"use strict";
+
 const fs = require("fs");
-'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    const payloads = [];
-    const data = JSON.parse(fs.readFileSync("./user-seeds.json"));
+  async up(queryInterface, Sequelize) {
+    const parseData = JSON.parse(fs.readFileSync("./satuan-seeds.json"));
 
-    data.map((values) => {
-      const { role_id, nama, no_hp, username, password, alamat } = values;
+    const payloads = [];
+
+    parseData.map((values) => {
+      const { nama_satuan } = values;
 
       payloads.push({
-        role_id: role_id,
-        nama: nama,
-        no_hp: no_hp,
-        username: username,
-        password: password,
-        alamat:alamat,
+        nama_satuan: nama_satuan,
       });
     });
 
-    await queryInterface.bulkInsert("Users", payloads, {});
+    await queryInterface.bulkInsert("Satuans", payloads, {});
   },
 
-  async down(queryInterface, Sequelize) {},
+  async down(queryInterface, Sequelize) {
+    await queryInterface.bulkDelete("Satuans", null, {});
+  },
 };
