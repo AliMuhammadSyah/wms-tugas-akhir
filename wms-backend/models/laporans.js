@@ -3,17 +3,14 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Laporans extends Model {
     static associate(models) {
-      Laporans.belongsTo(models.Bahans, {
-        foreignKey: "bahan_id",
-      });
+      Laporans.belongsTo(models.Users, { foreignKey: 'user_id' });
+      Laporans.belongsTo(models.Pemiliks, { foreignKey: 'pemilik_id' });
     }
   }
   Laporans.init(
     {
       user_id: DataTypes.INTEGER,
-      bahan_id: DataTypes.INTEGER,
-      tanggal_dibuat: DataTypes.DATE,
-      status: DataTypes.STRING,
+      pemilik_id: DataTypes.INTEGER,
     },
     {
       sequelize,

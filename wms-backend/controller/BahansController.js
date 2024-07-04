@@ -1,5 +1,5 @@
 const { Model } = require("sequelize");
-const { Bahans, Laporans } = require("../models");
+const { Bahans, JenisBahans, Satuans, Laporans } = require("../models");
 
 class BahansController {
   static async addNamaBahan(req, res) {
@@ -42,7 +42,7 @@ class BahansController {
       const bahan = await Bahans.findAll({
         include: [
           { model: JenisBahans, attributes: ["nama_jenis"] },
-          { model: Satuan, attributes: ["nama_satuan"] },
+          { model: Satuans, attributes: ["nama_satuan"] },
         ],
       });
 
