@@ -1,6 +1,8 @@
 const router = require("express").Router();
-const LaporanController = require("../controller/LaporanController");
+const LaporansController = require("../controller/LaporansController");
 
-router.get("/laporan", LaporanController.getAllLaporan);
+router.get("/laporan", LaporansController.getAllLaporan);
+router.post("/laporan", LaporansController.addLaporan);
+router.get('/laporan/:userId/:pemilikId', LaporansController.getLaporan);
 
 module.exports = router;

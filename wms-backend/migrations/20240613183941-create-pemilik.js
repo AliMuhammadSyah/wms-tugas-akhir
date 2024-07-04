@@ -24,6 +24,16 @@ module.exports = {
       total_stock: {
         type: Sequelize.INTEGER,
       },
+      date_in: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
+      },
+      date_out: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
+      },
     });
   },
   async down(queryInterface, Sequelize) {

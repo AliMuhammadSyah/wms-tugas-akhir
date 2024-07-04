@@ -12,8 +12,8 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
       },
-      transaksi_id: {
-        type: Sequelize.INTEGER,
+      pemilik_id: {
+        type: Sequelize.INTEGER, 
       },
     });
   },

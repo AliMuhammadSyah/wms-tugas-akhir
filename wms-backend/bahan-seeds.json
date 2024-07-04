@@ -1,23 +1,28 @@
 [
-    {
-        "id": 1,
-        "nama_bahan": "Kayu Jati Semarang"
+    {        
+        "jenis_bahan_id": 1,
+        "nama_bahan": "Kayu Jati Semarang",
+        "satuan_id": 1
     },
-    {
-        "id": 2,
-        "nama_bahan": "Paku Payung"
+    {        
+        "jenis_bahan_id": 1,
+        "nama_bahan": "Paku Payung",
+        "satuan_id": 1
     },
-    {
-        "id": 3,
-        "nama_bahan": "Alteko"
+    {        
+        "jenis_bahan_id": 1,
+        "nama_bahan": "Alteko",
+        "satuan_id": 1
     },
-    {
-        "id": 4,
-        "nama_bahan": "Angel Busa"
+    {        
+        "jenis_bahan_id": 1,
+        "nama_bahan": "Angel Busa",
+        "satuan_id": 1
     },
-    {
-        "id": 5,
-        "nama_bahan": "Karet Ban"
+    {        
+        "jenis_bahan_id": 1,
+        "nama_bahan": "Karet Ban",
+        "satuan_id": 1
     }
 ]
 
