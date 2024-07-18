@@ -1,20 +1,21 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import Draggable from 'react-draggable';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Autocomplete, TextField } from '@mui/material';
 import { useEditDataBahanDialog } from '../../../hooks/pemilik/useDialog';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { ErrorMessage, Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
+import { useState } from 'react';
 
 const EditDataBahanDialog = ({ selectedItem }) => {
   const { isEditDataBahanDialogOpen, closeEditDataBahanDialog } = useEditDataBahanDialog();
+  const [loading, setLoading] = useState(false);
+  const [submissionError, setSubmissionError] = useState(null);
 
-  const PaperComponent = (props) => {
-    return (
-      <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
-        <Paper {...props} />
-      </Draggable>
-    );
-  };
+  const PaperComponent = (props) => (
+    <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
+      <Paper {...props} />
+    </Draggable>
+  );
 
   const initialValues = {
     jenisBahan: selectedItem?.jenis || '',
@@ -32,11 +33,25 @@ const EditDataBahanDialog = ({ selectedItem }) => {
     keterangan: Yup.string().required('Keterangan wajib diisi')
   });
 
-  const handleSubmit = (values) => {
-    // handle form submission
-    console.log(values);
-    closeEditDataBahanDialog();
+  const handleSubmit = async (values) => {
+    setLoading(true);
+    setSubmissionError(null);
+    try {
+      // handle form submission
+      console.log(values);
+      // simulate a server request
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      closeEditDataBahanDialog();
+    } catch (error) {
+      setSubmissionError('Error submitting the form. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const jenisBahanOptions = ['Kayu', 'Paku', 'Lem'];
+  const namaBahanOptions = ['Kayu Jati', 'Paku Payung', 'Lem Rajawali'];
+  const satuanBahanOptions = ['m', 'ons', 'pcs'];
 
   return (
     <Dialog
@@ -58,39 +73,33 @@ const EditDataBahanDialog = ({ selectedItem }) => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {() => (
+            {({ setFieldValue, values }) => (
               <Form>
                 <div className="mb-6">
-                  <Field as="select" name="jenisBahan" className="p-2 w-full rounded-md cursor-pointer bg-white border border-zinc-400">
-                    <option value="" defaultChecked>
-                      Jenis Bahan
-                    </option>
-                    <option value="Kayu">Kayu</option>
-                    <option value="Paku">Paku</option>
-                    <option value="Lem">Lem</option>
-                  </Field>
+                  <Autocomplete
+                    options={jenisBahanOptions}
+                    value={values.jenisBahan}
+                    onChange={(event, newValue) => setFieldValue('jenisBahan', newValue)}
+                    renderInput={(params) => <TextField {...params} label="Jenis Bahan" variant="outlined" />}
+                  />
                   <ErrorMessage name="jenisBahan" component="div" className="text-red-500 text-sm mt-1" />
                 </div>
                 <div className="mb-6">
-                  <Field as="select" name="namaBahan" className="p-2 w-full rounded-md cursor-pointer bg-white border border-zinc-400">
-                    <option value="" defaultChecked>
-                      Nama Bahan
-                    </option>
-                    <option value="Kayu Jati">Kayu Jati</option>
-                    <option value="Paku Payung">Paku Payung</option>
-                    <option value="Lem Rajawali">Lem Rajawali</option>
-                  </Field>
+                  <Autocomplete
+                    options={namaBahanOptions}
+                    value={values.namaBahan}
+                    onChange={(event, newValue) => setFieldValue('namaBahan', newValue)}
+                    renderInput={(params) => <TextField {...params} label="Nama Bahan" variant="outlined" />}
+                  />
                   <ErrorMessage name="namaBahan" component="div" className="text-red-500 text-sm mt-1" />
                 </div>
                 <div className="mb-6">
-                  <Field as="select" name="satuanBahan" className="p-2 w-full rounded-md cursor-pointer bg-white border border-zinc-400">
-                    <option value="" defaultChecked>
-                      Satuan Bahan
-                    </option>
-                    <option value="m">m</option>
-                    <option value="ons">ons</option>
-                    <option value="pcs">pcs</option>
-                  </Field>
+                  <Autocomplete
+                    options={satuanBahanOptions}
+                    value={values.satuanBahan}
+                    onChange={(event, newValue) => setFieldValue('satuanBahan', newValue)}
+                    renderInput={(params) => <TextField {...params} label="Satuan Bahan" variant="outlined" />}
+                  />
                   <ErrorMessage name="satuanBahan" component="div" className="text-red-500 text-sm mt-1" />
                 </div>
                 <div className="mb-4">
@@ -99,7 +108,6 @@ const EditDataBahanDialog = ({ selectedItem }) => {
                     name="jumlah"
                     type="number"
                     className="border border-zinc-400 p-2 rounded-md w-full focus:outline-none focus:border-2 transition-all duration-150"
-                    disabled
                   />
                   <ErrorMessage name="jumlah" component="div" className="text-red-500 text-sm mt-1" />
                 </div>
@@ -112,11 +120,14 @@ const EditDataBahanDialog = ({ selectedItem }) => {
                   />
                   <ErrorMessage name="keterangan" component="div" className="text-red-500 text-sm mt-1" />
                 </div>
+                {submissionError && <div className="text-red-500 text-sm mb-4">{submissionError}</div>}
                 <DialogActions>
                   <Button autoFocus onClick={closeEditDataBahanDialog}>
                     Cancel
                   </Button>
-                  <Button type="submit">Submit</Button>
+                  <Button type="submit" disabled={loading}>
+                    {loading ? 'Submitting...' : 'Submit'}
+                  </Button>
                 </DialogActions>
               </Form>
             )}
@@ -125,6 +136,16 @@ const EditDataBahanDialog = ({ selectedItem }) => {
       </DialogContent>
     </Dialog>
   );
+};
+
+EditDataBahanDialog.propTypes = {
+  selectedItem: PropTypes.shape({
+    jenis: PropTypes.string,
+    nama: PropTypes.string,
+    satuan: PropTypes.string,
+    jumlah: PropTypes.number,
+    keterangan: PropTypes.string
+  }).isRequired
 };
 
 export default EditDataBahanDialog;
