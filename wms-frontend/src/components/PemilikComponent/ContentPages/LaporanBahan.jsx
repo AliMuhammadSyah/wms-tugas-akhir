@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { PrintRounded } from "@mui/icons-material";
 import ReactToPrint from 'react-to-print';
 import DatePicker from 'react-datepicker';
@@ -42,6 +42,17 @@ const LaporanBahan = () => {
   return (
     <div className="container">
       <style>
+        {`
+          .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fdfcfc;
+          }
+        `}
         {`
           @media print {
             .print-hidden {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Delete, Edit, PersonAddSharp } from "@mui/icons-material";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, TextField, FormControl } from "@mui/material";
 import { useTambahPemilikDialog, useEditDataPemilikDialog } from "../../../hooks/admin/useDialog";
@@ -78,6 +78,19 @@ const ManajemenPemilik = () => {
 
   return (
     <div className="container">
+      <style>
+        {`
+          .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fdfcfc;
+          }
+        `}
+      </style>
       <TambahPemilikDialog />
       <EditDataPemilikDialog />
       <h1 className="text-2xl mb-6 font-semibold tracking-wider">Manajemen Pemilik</h1>

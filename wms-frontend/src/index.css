@@ -24,15 +24,7 @@ body {
 .page-number.active {
   background-color: #2b6cb0;
 }
-.container {
-  max-width: 1200px; /* Sesuaikan lebar maksimum sesuai kebutuhan Anda */
-  margin: 0 auto; /* Memusatkan kontainer secara horizontal */
-  padding: 20px; /* Tambahkan padding jika diperlukan */
-  box-sizing: border-box; /* Memastikan padding termasuk dalam lebar total kontainer */
-  border: 1px solid #ccc; /* Garis tepi tipis dengan warna abu-abu */
-  border-radius: 8px; /* Tambahkan border radius untuk sudut melengkung (opsional) */
-  background-color: #fdfcfc;
-}
+
 /* Untuk layar berukuran kecil */
 @media (max-width: 768px) {
   .MuiList-root {
