@@ -1,28 +1,40 @@
-import React from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper } from "@mui/material";
+import PropTypes from "prop-types";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, TextField } from "@mui/material";
 import Draggable from "react-draggable";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import * as Yup from "yup"; // Import Yup
+import { ErrorMessage, Form, Formik } from "formik";
+import * as Yup from "yup"; 
+import Autocomplete from '@mui/material/Autocomplete';
+
+const PaperComponent = (props) => (
+  <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
+    <Paper {...props} />
+  </Draggable>
+);
 
 const EditDataBahanDialog = ({ item, closeEditDataBahanDialog }) => {
-  const PaperComponent = (props) => {
-    return (
-      <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
-        <Paper {...props} />
-      </Draggable>
-    );
-  };
-
-  // Skema validasi menggunakan Yup
   const validationSchema = Yup.object().shape({
     jenisbahan: Yup.string().required("Jenis bahan wajib diisi"),
     namabahan: Yup.string().required("Nama bahan wajib diisi"),
     satuan: Yup.string().required("Satuan wajib diisi"),
   });
 
+  const handleSubmit = async (values) => {
+    try {
+      console.log("Form submitted with values:", values);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      closeEditDataBahanDialog();
+    } catch (error) {
+      console.error("Error submitting the form:", error);
+    }
+  };
+
+  const jenisBahanOptions = ['Kayu', 'Paku', 'Lem'];
+  const namaBahanOptions = ['Kayu Jati', 'Paku Payung', 'Lem Rajawali'];
+  const satuanBahanOptions = ['m', 'ons', 'pcs'];
+
   return (
     <Dialog
-      open={Boolean(item)} // Buka dialog hanya jika item yang akan diedit ada
+      open={Boolean(item)}
       onClose={closeEditDataBahanDialog}
       PaperComponent={PaperComponent}
       aria-labelledby="draggable-dialog-title"
@@ -37,54 +49,81 @@ const EditDataBahanDialog = ({ item, closeEditDataBahanDialog }) => {
         <div className="px-4 py-7 border-lg border-2 rounded-lg w-3/4 flex justify-center items-center">
           <Formik
             initialValues={{ 
-              jenisbahan: item?.jenis || '', // Inisialisasi nilai jenis bahan
-              namabahan: item?.nama || '', // Inisialisasi nilai nama bahan
-              satuan: item?.satuan || '',   // Inisialisasi nilai satuan
+              jenisbahan: item?.jenis || '', 
+              namabahan: item?.nama || '', 
+              satuan: item?.satuan || '',   
             }}
-            validationSchema={validationSchema} // Terapkan skema validasi
-            onSubmit={(values) => {
-              // Handle submit formik di sini
-              console.log("Form submitted with values:", values);
-              closeEditDataBahanDialog(); // Tutup dialog setelah submit
-            }}
+            validationSchema={validationSchema} 
+            onSubmit={handleSubmit}
           >
-            {({ values }) => (
+            {({ setFieldValue, values }) => (
               <Form>
                 <div className="mb-6">
-                  <select
-                    name="jenisbahan"
-                    value={values.jenisbahan} // Tampilkan nilai yang dipilih
-                    className="p-2 w-full rounded-md cursor-pointer bg-white border border-zinc-400"
-                  >
-                    <option value="" disabled>
-                      Jenis Bahan
-                    </option>
-                    <option value="Kayu">Kayu</option>
-                    <option value="Paku">Paku</option>
-                    {/* Tambah opsi jenis bahan lainnya jika ada */}
-                  </select>
-                  <ErrorMessage name="jenisbahan" component="div" className="text-red-500" /> {/* Ubah warna pesan kesalahan menjadi merah */}
-                </div>
-                <div className="mb-4">
-                  <p className="text-sm tracking-wide text-zinc-400 mb-2">Nama Bahan</p>
-                  <Field
-                    name="namabahan"
-                    type="text"
-                    className="border border-zinc-400 p-2 rounded-md w-full focus:outline-none focus:border-2 transition-all duration-150"
+                  <Autocomplete
+                    options={jenisBahanOptions}
+                    value={values.jenisbahan}
+                    onChange={(event, newValue) => {
+                      setFieldValue('jenisbahan', newValue);
+                    }}
+                    freeSolo
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Jenis Bahan"
+                        variant="outlined"
+                        size="small"
+                        required
+                        fullWidth
+                      />
+                    )}
                   />
-                  <ErrorMessage name="namabahan" component="div" className="text-red-500" /> {/* Ubah warna pesan kesalahan menjadi merah */}
+                  <ErrorMessage name="jenisbahan" component="div" className="text-red-500 text-sm mt-1" />
                 </div>
-                <div className="mb-4">
-                  <p className="text-sm tracking-wide text-zinc-400 mb-2">Satuan</p>
-                  <Field
-                    name="satuan"
-                    type="text"
-                    className="border border-zinc-400 p-2 rounded-md w-full focus:outline-none focus:border-2 transition-all duration-150"
+                <div className="mb-6">
+                  <Autocomplete
+                    options={namaBahanOptions}
+                    value={values.namabahan}
+                    onChange={(event, newValue) => {
+                      setFieldValue('namabahan', newValue);
+                    }}
+                    freeSolo
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Nama Bahan"
+                        variant="outlined"
+                        size="small"
+                        required
+                        fullWidth
+                      />
+                    )}
                   />
-                  <ErrorMessage name="satuan" component="div" className="text-red-500" /> {/* Ubah warna pesan kesalahan menjadi merah */}
+                  <ErrorMessage name="namabahan" component="div" className="text-red-500 text-sm mt-1" />
                 </div>
+                <div className="mb-6">
+                  <Autocomplete
+                    options={satuanBahanOptions}
+                    value={values.satuan}
+                    onChange={(event, newValue) => {
+                      setFieldValue('satuan', newValue);
+                    }}
+                    freeSolo
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Satuan"
+                        variant="outlined"
+                        size="small"
+                        required
+                        fullWidth
+                      />
+                    )}
+                  />
+                  <ErrorMessage name="satuan" component="div" className="text-red-500 text-sm mt-1" />
+                </div>
+
                 <DialogActions>
-                  <Button onClick={closeEditDataBahanDialog}>Cancel</Button>
+                  <Button onClick={closeEditDataBahanDialog}>Batal</Button>
                   <Button type="submit">Submit</Button>
                 </DialogActions>
               </Form>
@@ -94,6 +133,15 @@ const EditDataBahanDialog = ({ item, closeEditDataBahanDialog }) => {
       </DialogContent>
     </Dialog>
   );
+};
+
+EditDataBahanDialog.propTypes = {
+  item: PropTypes.shape({
+    jenis: PropTypes.string,
+    nama: PropTypes.string,
+    satuan: PropTypes.string,
+  }),
+  closeEditDataBahanDialog: PropTypes.func.isRequired,
 };
 
 export default EditDataBahanDialog;

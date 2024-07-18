@@ -1,9 +1,9 @@
-import React from 'react';
 import Draggable from 'react-draggable';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, TextField } from '@mui/material';
 import { useMintaTambahDataBahanDialog } from '../../../hooks/pemilik/useDialog';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Form, ErrorMessage } from 'formik';
+import Autocomplete from '@mui/material/Autocomplete';
+import Stack from '@mui/material/Stack';
 
 const MintaTambahDataBahanDialog = () => {
   const { isMintaTambahDataBahanDialogOpen, closeMintaTambahDataBahanDialog } = useMintaTambahDataBahanDialog();
@@ -22,11 +22,9 @@ const MintaTambahDataBahanDialog = () => {
     satuanbahan: ''
   };
 
-  const validationSchema = Yup.object({
-    jenisbahan: Yup.string().required('Jenis Bahan wajib diisi'),
-    namabahan: Yup.string().required('Nama Bahan wajib diisi'),
-    satuanbahan: Yup.string().required('Satuan Bahan wajib diisi')
-  });
+  const jenisBahanOptions = ['Kayu', 'Paku', 'Lem'];
+  const namaBahanOptions = ['Kayu Jati', 'Paku Payung', 'Lem Rajawali'];
+  const satuanBahanOptions = ['m', 'ons', 'pcs'];
 
   const handleSubmit = (values) => {
     // handle form submission
@@ -48,41 +46,77 @@ const MintaTambahDataBahanDialog = () => {
         <DialogContentText sx={{ mb: 3 }}>
           Berikut ini merupakan formulir untuk meminta data bahan.
         </DialogContentText>
-        <div className="px-6 py-10 border-lg border-2 rounded-lg w-3/4 flex justify-center items-center">
+        <div className="px-6 py-10 border-lg border-2 rounded-lg w-3/4 flex justify-center items-center mb-4">
           <Formik
             initialValues={initialValues}
-            validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {() => (
+            {({ setFieldValue, values }) => (
               <Form>
-                <div className="mb-4">
-                  <p className="text-sm tracking-wide text-zinc-400 mb-2">Jenis Bahan</p>
-                  <Field
-                    name="jenisbahan"
-                    type="text"
-                    className="border border-zinc-400 p-2 rounded-md w-full focus:outline-none focus:border-2 transition-all duration-150"
+                <Stack spacing={2} sx={{ width: '100%' }}>
+                  <Autocomplete 
+                    freeSolo
+                    options={jenisBahanOptions}
+                    value={values.jenisbahan}
+                    onChange={(event, newValue) => {
+                      setFieldValue('jenisbahan', newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="jenisbahan"
+                        label="Jenis Bahan"
+                        variant="outlined"
+                        size="small"
+                        required
+                        fullWidth
+                      />
+                    )}
                   />
-                  <ErrorMessage name="jenisbahan" component="div" className="text-red-500 text-sm mt-1" />
-                </div>
-                <div className="mb-4">
-                  <p className="text-sm tracking-wide text-zinc-400 mb-2">Nama Bahan</p>
-                  <Field
-                    name="namabahan"
-                    type="text"
-                    className="border border-zinc-400 p-2 rounded-md w-full focus:outline-none focus:border-2 transition-all duration-150"
+                  <ErrorMessage name="jenisbahan" component="div" className="text-red-500" />
+                  
+                  <Autocomplete
+                    freeSolo
+                    options={namaBahanOptions}
+                    value={values.namabahan}
+                    onChange={(event, newValue) => {
+                      setFieldValue('namabahan', newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="namabahan"
+                        label="Nama Bahan"
+                        variant="outlined"
+                        size="small"
+                        required
+                        fullWidth
+                      />
+                    )}
                   />
-                  <ErrorMessage name="namabahan" component="div" className="text-red-500 text-sm mt-1" />
-                </div>
-                <div className="mb-4">
-                  <p className="text-sm tracking-wide text-zinc-400 mb-2">Satuan Bahan</p>
-                  <Field
-                    name="satuanbahan"
-                    type="text"
-                    className="border border-zinc-400 p-2 rounded-md w-full focus:outline-none focus:border-2 transition-all duration-150"
+                  <ErrorMessage name="namabahan" component="div" className="text-red-500" />
+                
+                  <Autocomplete
+                    freeSolo
+                    options={satuanBahanOptions}
+                    value={values.satuanbahan}
+                    onChange={(event, newValue) => {
+                      setFieldValue('satuanbahan', newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="satuanbahan"
+                        label="Satuan Bahan"
+                        variant="outlined"
+                        size="small"
+                        required
+                        fullWidth
+                      />
+                    )}
                   />
-                  <ErrorMessage name="satuanbahan" component="div" className="text-red-500 text-sm mt-1" />
-                </div>
+                  <ErrorMessage name="satuanbahan" component="div" className="text-red-500" />
+                </Stack>
                 <DialogActions>
                   <Button autoFocus onClick={() => closeMintaTambahDataBahanDialog()}>
                     Cancel

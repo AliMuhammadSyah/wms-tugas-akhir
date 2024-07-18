@@ -7,24 +7,21 @@ import {
   DialogContentText,
   DialogTitle,
   Paper,
+  TextField
 } from "@mui/material";
 import { useTambahDataBahanDialog } from "../../../hooks/pemilik/useDialog";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import Autocomplete from '@mui/material/Autocomplete';
 import * as Yup from "yup";
 
 const TambahDataBahanDialog = () => {
-  const { isTambahDataBahanDialogOpen, closeTambahDataBahanDialog } =
-    useTambahDataBahanDialog();
+  const { isTambahDataBahanDialogOpen, closeTambahDataBahanDialog } = useTambahDataBahanDialog();
 
-  console.log(isTambahDataBahanDialogOpen);
-
-  const PaperComponent = (props) => {
-    return (
-      <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
-        <Paper {...props} />
-      </Draggable>
-    );
-  };
+  const PaperComponent = (props) => (
+    <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
+      <Paper {...props} />
+    </Draggable>
+  );
 
   const initialValues = {
     jenisbahan: "",
@@ -35,12 +32,16 @@ const TambahDataBahanDialog = () => {
   };
 
   const validationSchema = Yup.object({
-    jenisbahan: Yup.string().required("Jenis Bahan diperlukan"),
-    namabahan: Yup.string().required("Nama Bahan diperlukan"),
-    satuanbahan: Yup.string().required("Satuan Bahan diperlukan"),
-    jumlah: Yup.number().required("Jumlah diperlukan").positive("Jumlah harus lebih besar dari 0"),
-    keterangan: Yup.string().required("Keterangan diperlukan"),
+    jenisbahan: Yup.string().required("Jenis Bahan wajib diisi"),
+    namabahan: Yup.string().required("Nama Bahan wajib diisi"),
+    satuanbahan: Yup.string().required("Satuan Bahan wajib diisi"),
+    jumlah: Yup.number().required("Jumlah wajib diisi"),
+    keterangan: Yup.string().optional(),
   });
+
+  const jenisBahanOptions = ['Kayu', 'Paku', 'Lem'];
+  const namaBahanOptions = ['Kayu Jati', 'Paku Payung', 'Lem Rajawali'];
+  const satuanBahanOptions = ['m', 'ons', 'pcs'];
 
   const handleSubmit = (values) => {
     console.log("Form values:", values);
@@ -67,73 +68,98 @@ const TambahDataBahanDialog = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            <Form>
-              <div className="mb-6">
-                <Field
-                  as="select"
-                  name="jenisbahan"
-                  className="p-2 w-full rounded-md cursor-pointer bg-white border border-zinc-400"
-                >
-                  <option value="">Jenis Bahan</option>
-                  <option value="Kayu">Kayu</option>
-                  <option value="Paku">Paku</option>
-                  <option value="Lem">Lem</option>
-                </Field>
-                <ErrorMessage name="jenisbahan" component="div" className="text-red-500" />
-              </div>
-              <div className="mb-6">
-                <Field
-                  as="select"
-                  name="namabahan"
-                  className="p-2 w-full rounded-md cursor-pointer bg-white border border-zinc-400"
-                >
-                  <option value="">Nama Bahan</option>
-                  <option value="Kayu Jati">Kayu Jati</option>
-                  <option value="Paku Payung">Paku Payung</option>
-                  <option value="Lem Rajawali">Lem Rajawali</option>
-                </Field>
-                <ErrorMessage name="namabahan" component="div" className="text-red-500" />
-              </div>
-              <div className="mb-6">
-                <Field
-                  as="select"
-                  name="satuanbahan"
-                  className="p-2 w-full rounded-md cursor-pointer bg-white border border-zinc-400"
-                >
-                  <option value="">Satuan Bahan</option>
-                  <option value="m">m</option>
-                  <option value="ons">ons</option>
-                  <option value="pcs">pcs</option>
-                </Field>
-                <ErrorMessage name="satuanbahan" component="div" className="text-red-500" />
-              </div>
-              <div className="mb-4">
-                <p className="text-sm tracking-wide text-zinc-400 mb-2">Jumlah</p>
-                <Field
-                  name="jumlah"
-                  type="number"
-                  className="border border-zinc-400 p-2 rounded-md w-full focus:outline-none focus:border-2 transition-all duration-150"
-                />
-                <ErrorMessage name="jumlah" component="div" className="text-red-500" />
-              </div>
-              <div className="mb-4">
-                <p className="text-sm tracking-wide text-zinc-400 mb-2">Keterangan</p>
-                <Field
-                  name="keterangan"
-                  type="text"
-                  className="border border-zinc-400 p-2 rounded-md w-full focus:outline-none focus:border-2 transition-all duration-150"
-                />
-                <ErrorMessage name="keterangan" component="div" className="text-red-500" />
-              </div>
-              <DialogActions>
-                <Button onClick={closeTambahDataBahanDialog} color="primary">
-                  Batal
-                </Button>
-                <Button type="submit" color="primary">
-                  Tambah
-                </Button>
-              </DialogActions>
-            </Form>
+            {({ setFieldValue, values }) => (
+              <Form>
+                <div className="mb-6">
+                  <Autocomplete
+                    options={jenisBahanOptions}
+                    value={values.jenisbahan}
+                    onChange={(event, newValue) => {
+                      setFieldValue('jenisbahan', newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Jenis Bahan"
+                        variant="outlined"
+                        size="small"
+                        required
+                        fullWidth
+                      />
+                    )}
+                  />
+                  <ErrorMessage name="jenisbahan" component="div" className="text-red-500" />
+                  </div>
+                  <div className="mb-6">
+                  <Autocomplete
+                    options={namaBahanOptions}
+                    value={values.namabahan}
+                    onChange={(event, newValue) => {
+                      setFieldValue('namabahan', newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Nama Bahan"
+                        variant="outlined"
+                        size="small"
+                        required
+                        fullWidth
+                      />
+                    )}
+                  />
+                  <ErrorMessage name="namabahan" component="div" className="text-red-500" />
+                  </div>
+                  <div className="mb-6">
+                  <Autocomplete
+                    options={satuanBahanOptions}
+                    value={values.satuanbahan}
+                    onChange={(event, newValue) => {
+                      setFieldValue('satuanbahan', newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Satuan Bahan"
+                        variant="outlined"
+                        size="small"
+                        required
+                        fullWidth
+                      />
+                    )}
+                  />
+                  <ErrorMessage name="satuanbahan" component="div" className="text-red-500" />
+                  </div>
+                <div className="mb-4">
+                  <p className="text-sm tracking-wide text-zinc-400 mb-2">Jumlah</p>
+                  <Field
+                    name="jumlah"
+                    type="number"
+                    className="border border-zinc-400 p-2 rounded-md w-full focus:outline-none focus:border-2 transition-all duration-150"
+                  />
+                  <ErrorMessage name="jumlah" component="div" className="text-red-500" />
+                </div>
+                
+                <div className="mb-4">
+                  <p className="text-sm tracking-wide text-zinc-400 mb-2">Keterangan</p>
+                  <Field
+                    name="keterangan"
+                    type="text"
+                    className="border border-zinc-400 p-2 rounded-md w-full focus:outline-none focus:border-2 transition-all duration-150"
+                  />
+                  <ErrorMessage name="keterangan" component="div" className="text-red-500" />
+                </div>
+                
+                <DialogActions>
+                  <Button onClick={closeTambahDataBahanDialog} color="primary">
+                    Batal
+                  </Button>
+                  <Button type="submit" color="primary">
+                    Tambah
+                  </Button>
+                </DialogActions>
+              </Form>
+            )}
           </Formik>
         </div>
       </DialogContent>

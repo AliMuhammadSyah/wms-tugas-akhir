@@ -1,66 +1,116 @@
 import Draggable from "react-draggable";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, TextField } from "@mui/material";
 import { useTambahNamaBahanDialog } from "../../../hooks/admin/useDialog";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
+import * as Yup from "yup"; 
+import Autocomplete from '@mui/material/Autocomplete';
 
 const TambahNamaBahanDialog = () => {
   const { isTambahNamaBahanDialogOpen, closeTambahNamaBahanDialog } = useTambahNamaBahanDialog();
 
-  console.log(isTambahNamaBahanDialogOpen);
+  const PaperComponent = (props) => (
+    <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
+      <Paper {...props} />
+    </Draggable>
+  );
 
-  const PaperComponent = (props) => {
-    return (
-      <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
-        <Paper {...props} />
-      </Draggable>
-    );
+  const initialValues = {
+    jenisBahan: '',
+    tambahNamaBahanBaru: ''
+  };
+
+  const validationSchema = Yup.object().shape({
+    jenisBahan: Yup.string().required("Jenis bahan wajib dipilih"),
+    tambahNamaBahanBaru: Yup.string().required("Nama bahan baru wajib diisi")
+  });
+
+  const jenisBahanOptions = ['Kayu', 'Paku'];
+  const namaBahanOptions = ['Kayu Jati', 'Kayu Mahoni', 'Paku Payung', 'Paku Beton'];
+
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log("Form submitted with values:", values);
+    setSubmitting(false);
+    closeTambahNamaBahanDialog();
   };
 
   return (
     <Dialog
       open={isTambahNamaBahanDialogOpen}
-      onClose={() => closeTambahNamaBahanDialog()}
+      onClose={closeTambahNamaBahanDialog}
       PaperComponent={PaperComponent}
-      aria-labelledby="draggable-dialog-title">
+      aria-labelledby="draggable-dialog-title"
+    >
       <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
         Tambah Data Nama Bahan
       </DialogTitle>
       <DialogContent>
         <DialogContentText sx={{ mb: 3 }}>
-          Berikut ini merupakan formulir untuk menambhakan data Nama Bahan.
+          Berikut ini merupakan formulir untuk menambahkan data Nama Bahan.
         </DialogContentText>
         <div className="px-4 py-7 border-lg border-2 rounded-lg w-3/4 flex justify-center items-center">
-          <Formik>
-            <Form>
-              <div className="mb-6">
-                <select name="role_name" className="p-2 w-full rounded-md cursor-pointer bg-white border border-zinc-400">
-                  <option value="" defaultChecked>
-                    Pilih Jenis Bahan
-                  </option>
-                  <option value="1">Kayu</option>
-                  <option value="2">Paku</option>
-                </select>
-                <ErrorMessage name="username" />
-              </div>
-              <div className="mb-4">
-                <p className="text-sm tracking-wide text-zinc-400 mb-2">Tambah Nama Bahan Baru</p>
-                <Field
-                  name="tambahnamabahanbaru"
-                  type="text"
-                  className="border border-zinc-400 p-2 rounded-md w-full focus:outline-none focus:border-2 transition-all duration-150"
-                />
-                <ErrorMessage name="nama" />
-              </div>
-            </Form>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ setFieldValue, values }) => (
+              <Form>
+                <div className="mb-6 w-full">
+                  <Autocomplete
+                    options={jenisBahanOptions}
+                    value={values.jenisBahan}
+                    onChange={(event, newValue) => {
+                      setFieldValue('jenisBahan', newValue);
+                    }}
+                    sx={{ width: 200 }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Pilih Jenis Bahan"
+                        variant="outlined"
+                        size="small"
+                        required
+                        fullWidth
+                      />
+                    )}
+                  />
+                  <ErrorMessage name="jenisBahan" component="div" className="text-red-500 text-sm mt-1" />
+                </div>
+
+                <div className="mb-6 w-full">
+                  <Autocomplete
+                    freeSolo
+                    options={namaBahanOptions}
+                    value={values.tambahNamaBahanBaru}
+                    onChange={(event, newValue) => {
+                      setFieldValue('tambahNamaBahanBaru', newValue);
+                    }}
+                    onInputChange={(event, newInputValue) => {
+                      setFieldValue('tambahNamaBahanBaru', newInputValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Tambah Nama Bahan"
+                        variant="outlined"
+                        size="small"
+                        required
+                        fullWidth
+                      />
+                    )}
+                  />
+                  <ErrorMessage name="tambahNamaBahanBaru" component="div" className="text-red-500 text-sm mt-1" />
+                </div>
+
+                <DialogActions>
+                  <Button onClick={closeTambahNamaBahanDialog}>Cancel</Button>
+                  <Button type="submit">Submit</Button>
+                </DialogActions>
+              </Form>
+            )}
           </Formik>
         </div>
       </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={() => closeTambahNamaBahanDialog()}>
-          Cancel
-        </Button>
-        <Button onClick={() => closeTambahNamaBahanDialog()}>Submit</Button>
-      </DialogActions>
     </Dialog>
   );
 };

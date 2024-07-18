@@ -87,15 +87,6 @@ const ManajemenDataBahan = () => {
     { id: 2, jenis: "Paku", nama: "Paku Payung", satuan: "ons" },
     { id: 3, jenis: "Lem", nama: "Lem Rajawali", satuan: "pcs" },
     { id: 4, jenis: "Karet", nama: "Karet Ban", satuan: "m" },
-    { id: 5, jenis: "Lem", nama: "Lem Rajawali", satuan: "pcs" },
-    { id: 6, jenis: "Lem", nama: "Lem Rajawali", satuan: "pcs" },
-    { id: 7, jenis: "Lem", nama: "Lem Rajawali", satuan: "pcs" },
-    { id: 8, jenis: "Lem", nama: "Lem Rajawali", satuan: "pcs" },
-    { id: 9, jenis: "Lem", nama: "Lem Rajawali", satuan: "pcs" },
-    { id: 10, jenis: "Lem", nama: "Lem Rajawali", satuan: "pcs" },
-    { id: 11, jenis: "Lem", nama: "Lem Rajawali", satuan: "pcs" },
-    { id: 12, jenis: "Lem", nama: "Lem Rajawali", satuan: "pcs" }, 
-    // Add more data as needed
   ];
 
   const filteredData = data.filter((item) =>
@@ -110,7 +101,20 @@ const ManajemenDataBahan = () => {
   const totalPages = Math.ceil(filteredData.length / entriesPerPage);
 
   return (
-    <div className="container">
+    <div className="container mx-auto p-4">
+      <style>
+        {`
+          .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fdfcfc;
+          }
+        `}
+      </style>
       <TambahJenisBahanDialog />
       <TambahNamaBahanDialog />
       <TambahSatuanBahanDialog />
@@ -155,11 +159,11 @@ const ManajemenDataBahan = () => {
       <table className="table-auto w-full border-collapse border border-gray-800 bg-gray-200">
         <thead>
           <tr className="bg-gray-400">
-            <th className="border border-gray-600 px-4 py-2 text-center">No</th>
-            <th className="border border-gray-600 px-4 py-2 text-center">Jenis Bahan</th>
-            <th className="border border-gray-600 px-4 py-2 text-center">Nama Bahan</th>
-            <th className="border border-gray-600 px-4 py-2 text-center">Satuan</th>
-            <th colSpan={2} className="border border-gray-600 px-4 py-2 text-center">
+            <th className="border border-gray-600 px-3 py-1 text-center">No</th>
+            <th className="border border-gray-600 px-3 py-1 text-center">Jenis Bahan</th>
+            <th className="border border-gray-600 px-3 py-1 text-center">Nama Bahan</th>
+            <th className="border border-gray-600 px-3 py-1 text-center">Satuan</th>
+            <th colSpan={2} className="border border-gray-600 px-3 py-1 text-center">
               Aksi
             </th>
           </tr>
@@ -167,19 +171,13 @@ const ManajemenDataBahan = () => {
         <tbody>
           {paginatedData.map((item, index) => (
             <tr key={item.id}>
-              <td className="border border-gray-600 px-4 py-2 text-center">
+              <td className="border border-gray-600 px-3 py-1 text-center">
                 {index + 1 + (currentPage - 1) * entriesPerPage}
               </td>
-              <td className="border border-gray-600 px-4 py-2 text-center">
-                {item.jenis}
-              </td>
-              <td className="border border-gray-600 px-4 py-2 text-center">
-                {item.nama}
-              </td>
-              <td className="border border-gray-600 px-4 py-2 text-center">
-                {item.satuan}
-              </td>
-              <td className="border border-gray-600 px-2 py-1 text-left">
+              <td className="border border-gray-600 px-3 py-1 text-center"> {item.jenis}</td>
+              <td className="border border-gray-600 px-3 py-1 text-center">{item.nama}</td>
+              <td className="border border-gray-600 px-3 py-1 text-center">{item.satuan}</td>
+              <td className="border border-gray-600 px-3 py-1 text-left">
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEditItem(item)}
