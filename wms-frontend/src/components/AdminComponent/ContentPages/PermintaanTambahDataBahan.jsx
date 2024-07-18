@@ -1,4 +1,3 @@
-import React from 'react';
 
 const PermintaanTambahDataBahan = () => {
   
@@ -10,6 +9,19 @@ const PermintaanTambahDataBahan = () => {
 
   return (
     <div className="container">
+      <style>
+        {`
+          .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fdfcfc;
+          }
+        `}
+      </style>
       <h1 className="text-2xl mb-6 font-semibold tracking-wider">Permintaan Tambah Data Bahan</h1>
       <table className="table-auto w-full border-collapse border border-gray-800 bg-gray-200">
         <thead>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { AddCircle, AddComment, Delete, Edit, RemoveCircle } from "@mui/icons-material";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, TextField, FormControl, Checkbox } from "@mui/material";
 import { useTambahDataBahanDialog, useTambahStokBahanDialog, useKurangiStokBahanDialog, useEditDataBahanDialog, useMintaTambahDataBahanDialog } from "../../../hooks/pemilik/useDialog";
@@ -90,6 +90,19 @@ const ManajemenBahan = () => {
 
   return (
     <div className="container">
+      <style>
+        {`
+          .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fdfcfc;
+          }
+        `}
+      </style>
       <TambahDataBahanDialog />
       <TambahStokBahanDialog />
       <KurangiStokBahanDialog />

@@ -1,10 +1,22 @@
-import React from 'react';
 import { Box, Typography, Grid } from '@mui/material';
 import { Category, Label, Straighten, Group } from '@mui/icons-material';
 
 const HalamanUtama = () => {
   return (
     <div className="container" style={{ padding: '20px' }}>
+      <style>
+        {`
+          .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fdfcfc;
+          }
+        `}
+      </style>
       <h1 className="text-2xl mb-6 font-semibold tracking-wider">
         Halaman Utama
       </h1>
