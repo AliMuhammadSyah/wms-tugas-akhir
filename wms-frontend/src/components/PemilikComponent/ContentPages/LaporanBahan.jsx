@@ -40,7 +40,7 @@ const LaporanBahan = () => {
   const componentRef = useRef();
 
   return (
-    <div className="container">
+    <div className="container mx-auto p-4">
       <style>
         {`
           .container {
@@ -53,6 +53,8 @@ const LaporanBahan = () => {
             background-color: #fdfcfc;
           }
         `}
+      </style>
+      <style>
         {`
           @media print {
             .print-hidden {

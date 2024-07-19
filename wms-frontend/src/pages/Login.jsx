@@ -2,7 +2,6 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { LoginBg } from "../assets";
 import { api } from "../utility/api";
-import { useEffect, useState } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,25 +13,26 @@ const Login = () => {
 
   const handleLogin = async (values) => {
     try {
-      const data = await api.post("/login", values);
+      const data = await api.post("login", values);
+      console.log("Login response:", data);
       if (data.status === 200) {
         localStorage.setItem("user", JSON.stringify(data?.data?.data));
-
         if (data?.data?.data?.role_id === 1) {
           return navigate("/admin");
         }
-
         if (data?.data?.data?.role_id === 2) {
           navigate("/pemilik");
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error("Login error:", error);
     }
   };
+  
 
   return (
     <div className="grid grid-cols-12">
+      
       <div className="col-span-8">
         <img
           src={LoginBg}

@@ -135,7 +135,7 @@ const TambahPemilikDialog = () => {
                     />
                     <ErrorMessage name="alamat" />
                   </div>
-                  <Button type="submit">Daftar</Button>
+                  <Button type="submit" onClick={() => handleRegister()}>Daftar</Button>
                 </Form>
               );
             }}

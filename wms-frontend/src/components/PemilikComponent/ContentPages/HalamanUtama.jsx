@@ -3,7 +3,7 @@ import { Assignment, Inbox, Outbox } from '@mui/icons-material'; // Mengganti ik
 
 const HalamanUtama = () => {
   return (
-    <div className="container">
+     <div className="container mx-auto p-4">
       <style>
         {`
           .container {
