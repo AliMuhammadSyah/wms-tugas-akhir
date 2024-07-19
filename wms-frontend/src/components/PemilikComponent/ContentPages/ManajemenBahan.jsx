@@ -89,20 +89,20 @@ const ManajemenBahan = () => {
   const totalPages = Math.ceil(filteredData.length / entriesPerPage);
 
   return (
-    <div className="container">
-      <style>
-        {`
-          .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #fdfcfc;
-          }
-        `}
-      </style>
+    <div className="container mx-auto p-4">
+    <style>
+      {`
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 20px;
+          box-sizing: border-box;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          background-color: #fdfcfc;
+        }
+      `}
+    </style>
       <TambahDataBahanDialog />
       <TambahStokBahanDialog />
       <KurangiStokBahanDialog />

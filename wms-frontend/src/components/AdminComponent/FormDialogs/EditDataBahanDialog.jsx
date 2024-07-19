@@ -1,17 +1,17 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, TextField } from "@mui/material";
 import Draggable from "react-draggable";
 import { ErrorMessage, Form, Formik } from "formik";
 import * as Yup from "yup"; 
 import Autocomplete from '@mui/material/Autocomplete';
 
-const PaperComponent = (props) => (
-  <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
-    <Paper {...props} />
-  </Draggable>
-);
-
 const EditDataBahanDialog = ({ item, closeEditDataBahanDialog }) => {
+  const PaperComponent = (props) => (
+    <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
+      <Paper {...props} />
+    </Draggable>
+  );
+
   const validationSchema = Yup.object().shape({
     jenisbahan: Yup.string().required("Jenis bahan wajib diisi"),
     namabahan: Yup.string().required("Nama bahan wajib diisi"),
@@ -65,7 +65,7 @@ const EditDataBahanDialog = ({ item, closeEditDataBahanDialog }) => {
                     onChange={(event, newValue) => {
                       setFieldValue('jenisbahan', newValue);
                     }}
-                    freeSolo
+                    sx={{ width: 200 }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -78,15 +78,14 @@ const EditDataBahanDialog = ({ item, closeEditDataBahanDialog }) => {
                     )}
                   />
                   <ErrorMessage name="jenisbahan" component="div" className="text-red-500 text-sm mt-1" />
-                </div>
-                <div className="mb-6">
+                  </div>
+                  <div className="mb-6">
                   <Autocomplete
                     options={namaBahanOptions}
                     value={values.namabahan}
                     onChange={(event, newValue) => {
                       setFieldValue('namabahan', newValue);
                     }}
-                    freeSolo
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -99,15 +98,14 @@ const EditDataBahanDialog = ({ item, closeEditDataBahanDialog }) => {
                     )}
                   />
                   <ErrorMessage name="namabahan" component="div" className="text-red-500 text-sm mt-1" />
-                </div>
-                <div className="mb-6">
+                  </div>
+                  <div className="mb-6">
                   <Autocomplete
                     options={satuanBahanOptions}
                     value={values.satuan}
                     onChange={(event, newValue) => {
                       setFieldValue('satuan', newValue);
                     }}
-                    freeSolo
                     renderInput={(params) => (
                       <TextField
                         {...params}

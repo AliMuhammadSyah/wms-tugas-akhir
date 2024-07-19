@@ -1,10 +1,10 @@
-import { Contents, Logobar, Navbar, Sidebar } from "../components/AdminComponent"
-import AlertComponent from "../components/AlertComponent"
+import { Contents, Logobar, Navbar, Sidebar } from "../components/AdminComponent";
+import AlertComponent from "../components/AlertComponent";
 
 const AdminDashboard = () => {
   return (
-    <div className="grid grid-cols-5">      
-      <div className="col-span-0 grid grid-rows-9 h-screen">
+    <div className="grid grid-cols-5">
+      <div className="col-span-1 grid grid-rows-9 h-screen">
         <div className="row-span-1">
           <Logobar />
         </div>
@@ -20,8 +20,9 @@ const AdminDashboard = () => {
           <Contents />
         </div>
       </div>
+      <AlertComponent />
     </div>
-  )
-}
+  );
+};
 
-export default AdminDashboard
+export default AdminDashboard;
