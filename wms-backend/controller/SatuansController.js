@@ -1,5 +1,5 @@
 const { where } = require("sequelize");
-const { Satuans } = require("../models");
+const { Satuans, Bahans } = require("../models");
 
 class SatuansController {
   static async addSatuan(req, res) {
@@ -38,7 +38,7 @@ class SatuansController {
   static async getSatuans(req, res) {
     try {
       const satuans = await Satuans.findAll({
-        include: [{ model: Materials, attributes: ["nama_bahan"] }],
+        include: [{ model: Bahans, attributes: ["nama_bahan"] }],
       });
 
       if (satuans.lenght == 0) {
@@ -63,7 +63,7 @@ class SatuansController {
       const id = req.params.id;
 
       const satuan = await Satuans.findOne({
-        include: [{ model: Satuans, attributes: ["nama_bahan"] }],
+        include: [{ model: Bahans, attributes: ["nama_bahan"] }],
         where: {
           id: id,
         },
@@ -117,8 +117,9 @@ class SatuansController {
 
       if (updatedSatuan) {
         res.status(200).json({
-          status: false,
+          status: true,
           message: `Berhasil mengupdate nama satuan dengan id ${id}!`,
+          data: satuan
         });
       }
     } catch (error) {

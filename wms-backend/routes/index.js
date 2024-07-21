@@ -5,6 +5,7 @@ const jenisBahanRoutes = require("./jenisbahan-routes");
 const satuanRoutes = require("./satuan-routes");
 const pemilikRoutes = require("./pemilik-routes");
 const laporanRoutes = require("./laporan-routes");
+const stokRoutes = require("./stok-routes");
 
 router.get("/", (req, res) => {
   res.send("Api is working!");
@@ -20,5 +21,7 @@ router.use("/api", jenisBahanRoutes);
 router.use("/api", satuanRoutes);
 router.use("/api", pemilikRoutes);
 router.use("/api", laporanRoutes);
+router.use("/api", stokRoutes);
+
 
 module.exports = router;

@@ -3,7 +3,7 @@ const { JenisBahans, Bahans } = require("../models");
 class JenisBahansController {
   static async addJenisBahan(req, res) {
     try {
-      const { nama_jenis } = req.body.nama_jenis;
+      const { nama_jenis } = req.body;
 
       const checkNamaJenisBahan = await JenisBahans.findOne({
         where: {
@@ -32,6 +32,10 @@ class JenisBahansController {
       }
     } catch (error) {
       console.log(error);
+      res.status(500).json({
+        success: false,
+        message: "Terjadi kesalahan saat menambahkan nama jenis bahan!",
+      });
     }
   }
 
@@ -48,8 +52,8 @@ class JenisBahansController {
 
       res.status(200).json({
         success: true,
-        message: `Berhasil mengambil data jenis bahan dengan id ${id}`,
-        data: checkNamaJenis,
+        message: `Berhasil mengambil data jenis bahan`,
+        data: jenisBahans,
       });
     } catch (error) {
       console.log(error);
@@ -88,7 +92,7 @@ class JenisBahansController {
       const id = req.params.id;
       const nama_jenis = req.body.nama_jenis;
 
-      const JenisBahan = await JenisBahan.findOne({
+      const jenisBahan = await JenisBahans.findOne({
         where: {
           id: id,
         },
