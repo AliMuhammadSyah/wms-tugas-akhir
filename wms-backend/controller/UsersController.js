@@ -110,7 +110,7 @@ class UsersController {
     try {
       const users = await Users.findAll({
         attributes: ["id", "role_id", "nama", "no_hp", "username", "alamat"],
-        include: [{ model: Roles, attributes: ["role_nama"] }],
+        include: [{ model: Roles, attributes: ["nama_role"] }],
       });
 
       if (users.length == 0) {
@@ -137,7 +137,7 @@ class UsersController {
           role_id: 2,
         },
         attributes: ["id", "role_id", "nama", "no_hp", "username", "alamat"],
-        include: [{ model: Roles, attributes: ["role_nama"] }],
+        include: [{ model: Roles, attributes: ["nama_role"] }],
       });
 
       if (pemilik.length == 0) {
@@ -166,7 +166,7 @@ class UsersController {
           id: id,
         },
         attributes: ["id", "role_id", "nama", "no_hp", "username", "alamat"],
-        include: [{ model: Roles, attributes: ["role_nama"] }],
+        include: [{ model: Roles, attributes: ["nama_role"] }],
       });
 
       if (!user) {

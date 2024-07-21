@@ -6,7 +6,7 @@ class BahansController {
     try {
       const { nama_bahan, jenis_bahan_id, satuan_id } = req.body;
 
-      const checkNamaBahan = await Materials.findOne({
+      const checkNamaBahan = await Bahans.findOne({
         where: {
           nama_bahan: nama_bahan,
         },
@@ -46,11 +46,10 @@ class BahansController {
         ],
       });
 
-      if (Bahans.length == 0) {
+      if (bahan.length == 0) {
         return res.status(404).json({
           success: false,
-          message: "Berhasil mangambil semua data nama bahan!",
-          data: bahan,
+          message: "Gagal mengambil data nama bahan!",
         });
       }
 
@@ -69,13 +68,13 @@ class BahansController {
       const id = req.params.id;
 
       const bahan = await Bahans.findOne({
-        include: [{ model: JenisBahan, attributes: ["nama_jenis"] }],
+        include: [{ model: JenisBahans, attributes: ["nama_jenis"] }],
         where: {
           id: id,
         },
       });
       
-      if (!material) {
+      if (!JenisBahans) {
         return res.status(404).json({
           success: false,
           message: `Nama bahan dengan id ${id} tidak dapat ditemukan!`,
@@ -123,8 +122,9 @@ class BahansController {
 
       if (updatedBahan) {
         res.status(200).json({
-          status: false,
+          status: true,
           message: `Berhasil mengupdate nama bahan dengan id ${id}!`,
+          data: bahan
         });
       }
     } catch (error) {
